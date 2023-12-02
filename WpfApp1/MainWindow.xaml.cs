@@ -26,14 +26,14 @@ namespace WpfApp1
     {
         string g_FilePath;
 
-        public static string[] g_pstrDstDisk = {"R","E","B"};
+        public static string[] g_pstrDstDisk = { "R", "E", "B" };
         public static string[] g_pstrSelPrinterLan = { "TSPL", "ZPL", "DPL" };
         public MainWindow()
         {
             InitializeComponent();
 
             /* 選項添加 */
-            for (int i = 0; i < g_pstrDstDisk.Length; i++)                
+            for (int i = 0; i < g_pstrDstDisk.Length; i++)
                 diskComboBox.Items.Add(g_pstrDstDisk[i]); // dpi選項添加
 
             for (int i = 0; i < g_pstrSelPrinterLan.Length; i++)
@@ -41,7 +41,7 @@ namespace WpfApp1
         }
 
         private void loadFileButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             //StreamReader sr = new StreamReader;
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "Document"; // Default file name
@@ -54,13 +54,13 @@ namespace WpfApp1
             if (result == true)
             {
                 g_FilePath = dialog.FileName;
-                labelStatus3.Content = "TTF檔案路徑已完成";
-                labelStatus3.Foreground = new SolidColorBrush(Colors.Green);
+                labelSelectSrc.Content = g_FilePath;
+                labelSelectSrc.Foreground = new SolidColorBrush(Colors.Green);
             }
             else
             {
-                labelStatus.Content = "開啟檔案失敗";
-                labelStatus.Foreground = new SolidColorBrush(Colors.Red);
+                labelSelectSrc.Content = "請選擇一個TTF檔案";
+                labelSelectSrc.Foreground = new SolidColorBrush(Colors.Red);
             }
         }
 
@@ -69,29 +69,36 @@ namespace WpfApp1
             FolderBrowserDialog path = new FolderBrowserDialog();
             path.ShowDialog();
             dstPathText.Text = path.SelectedPath;
-            labelStatus2.Content = "指定路徑已完成";
-            labelStatus2.Foreground = new SolidColorBrush(Colors.Green);
         }
 
         private void exportFileButton_Click(object sender, RoutedEventArgs e)
         {
-            if (g_FilePath == null)
+            if (g_FilePath.Length == 0)
             {
                 labelStatus.Content = "來源檔案路徑必須選擇";
                 labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 return;
             }
-                    
-            if (g_FilePath.Length > 0&& dstPathText.Text.Length>0 && wFileName.Text.Length>0)
+
+            if (g_FilePath.Length > 0 && dstPathText.Text.Length > 0 && wFileName.Text.Length > 0)
             {
                 byte[] byteGet;
                 byte[] byteWrite;
                 string fileName;
                 int fileSize;
 
-                fileName = System.IO.Path.GetFileName(g_FilePath);
-                byteGet = File.ReadAllBytes(g_FilePath);
-                fileSize = byteGet.Length;
+                if (File.Exists(g_FilePath))
+                {
+                    fileName = System.IO.Path.GetFileName(g_FilePath);
+                    byteGet = File.ReadAllBytes(g_FilePath);
+                    fileSize = byteGet.Length;
+                }
+                else
+                {
+                    labelStatus.Content = "選擇的檔案並不存在";
+                    labelStatus.Foreground = new SolidColorBrush(Colors.Red);
+                    return;
+                }
 
                 if (diskComboBox.SelectedIndex == -1)
                 {
@@ -131,7 +138,7 @@ namespace WpfApp1
                     else
                         return;
 
-                   stringLangHead = "~DY"+ stringD2Dst + ":" + wFileName.Text + ",b,T," + byteGet.Length + ",";
+                    stringLangHead = "~DY" + stringD2Dst + ":" + wFileName.Text + ",b,T," + byteGet.Length + ",";
                 }
                 else if (LangComboBox.Text == g_pstrSelPrinterLan[2])
                 {
@@ -146,7 +153,6 @@ namespace WpfApp1
                     else
                         return;
 
-
                     stringLangHead = "\x2i" + stringD2Dst + "T" + wFileName.Text + "TTFont" + "\xD" + stringFileSize8B;
                 }
                 else
@@ -160,22 +166,20 @@ namespace WpfApp1
                 File.WriteAllBytes(target, byteWrite);
                 labelStatus.Content = "檔案輸出完成";
                 labelStatus.Foreground = new SolidColorBrush(Colors.Green);
-                labelStatus2.Content = "";
-                labelStatus3.Content = "";
             }
             else
             {
                 if (g_FilePath.Length == 0)
                 {
-                    labelStatus3.Content = "來源檔案路徑不得為空";
-                    labelStatus3.Foreground = new SolidColorBrush(Colors.Red);
+                    labelStatus.Content = "來源檔案路徑不得為空";
+                    labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 }
-                if (dstPathText.Text.Length == 0)
+                else if (dstPathText.Text.Length == 0)
                 {
-                    labelStatus2.Content = "指定輸出路徑不得為空";
-                    labelStatus2.Foreground = new SolidColorBrush(Colors.Red);
+                    labelStatus.Content = "指定輸出路徑不得為空";
+                    labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 }
-                if (wFileName.Text.Length == 0)
+                else if (wFileName.Text.Length == 0)
                 {
                     labelStatus.Content = "指定名稱不得為空";
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
