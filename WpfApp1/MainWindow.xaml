@@ -30,10 +30,10 @@
                     <Label Content="{DynamicResource labelSelectPrinterLanguage}"></Label>
                     <ComboBox Name="LangComboBox"/>
                 </StackPanel>
-                <Button Name="exportFileButton" Click="exportFileButton_Click" Content="{DynamicResource btnExport}"/>
-                <Button Name="btnSwitch" Click="btnSwitch_Click" Content="{DynamicResource btnSwitchLanguage}"></Button>
+                <Button Name="exportFileButton" Click="exportFileButton_Click" Content="{DynamicResource btnExport}"/>                
                 <Label Name="labelStatus" ></Label>                
             </StackPanel>
-        </StackPanel>
+            <Button Name="btnSwitch" Click="btnSwitch_Click" Content="{DynamicResource btnSwitchLanguage}" VerticalAlignment="Bottom" ></Button>
+        </StackPanel>        
     </Grid>
 </Window>

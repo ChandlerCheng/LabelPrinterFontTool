@@ -91,7 +91,7 @@ namespace WpfApp1
         {
             if (g_FilePath ==null || g_FilePath.Length == 0)
             {
-                labelStatus.Content = TryFindResource("msgSelectDstPath") as string;
+                labelStatus.Content = TryFindResource("msgSrcPathIsNull") as string;
                 labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 return;
             }
