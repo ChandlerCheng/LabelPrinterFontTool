@@ -4,33 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="TTF Download File Output" Height="290" Width="300" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical">
-                <Label >輸出至:</Label>
-                <TextBox Name="dstPathText" Width="290">D:\Chandler</TextBox>
-                <Button Name="dstFileButton" Click="dstFileButton_Click">選擇輸出位置</Button>
-                <Label >檔案名稱</Label>
-                <TextBox HorizontalAlignment="Left" Name="wFileName" Width="100"></TextBox>
+                <Label Content="{DynamicResource labelExportTo}"></Label>
+                <TextBox Name="dstPathText" Width="290"></TextBox>
+                <Button Name="dstFileButton" Click="dstFileButton_Click" Content="{DynamicResource btnSelectExportTo}"/>
                 <StackPanel Orientation="Horizontal">
-                    <Label >選擇要轉換的TTF字體:</Label>
-                    <Label Name="labelSelectSrc"></Label>
-                </StackPanel>
-                <Button Name="loadFileButton" Click="loadFileButton_Click">選取</Button>
+                    <Label Content="{DynamicResource labelFileName}"></Label>
+                    <TextBox HorizontalAlignment="Left" Name="wFileName" Width="200"></TextBox>
+                </StackPanel>                
                 <StackPanel Orientation="Horizontal">
-                    <Label>下載至印表機的槽:</Label>
-                    <ComboBox Name="diskComboBox">
-                    </ComboBox>
+                    <Label Content="{DynamicResource labelSelectTTF}"></Label>
+                    <Button Name="loadFileButton" Click="loadFileButton_Click" Content="{DynamicResource btnSelectTTF}"/>
+                </StackPanel>
+                <Label Name="labelSelectSrc"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{DynamicResource labelSelectDisk}"></Label>
+                    <ComboBox Name="diskComboBox"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Label>印表機語言:</Label>
-                    <ComboBox Name="LangComboBox">
-                    </ComboBox>
+                    <Label Content="{DynamicResource labelSelectPrinterLanguage}"></Label>
+                    <ComboBox Name="LangComboBox"/>
                 </StackPanel>
-                <Button Name="exportFileButton" Click="exportFileButton_Click">輸出</Button>                
-                <Label Name="labelStatus" ></Label>
+                <Button Name="exportFileButton" Click="exportFileButton_Click" Content="{DynamicResource btnExport}"/>
+                <Button Name="btnSwitch" Click="btnSwitch_Click" Content="{DynamicResource btnSwitchLanguage}"></Button>
+                <Label Name="labelStatus" ></Label>                
             </StackPanel>
         </StackPanel>
     </Grid>

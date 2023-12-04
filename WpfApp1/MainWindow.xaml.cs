@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
+using System.Resources;
 
 
 namespace WpfApp1
@@ -22,16 +23,30 @@ namespace WpfApp1
     /// <summary>
     /// MainWindow.xaml 的互動邏輯
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
-        string g_FilePath;
-
+        string g_FilePath;        
         public static string[] g_pstrDstDisk = { "R", "E", "B" };
         public static string[] g_pstrSelPrinterLan = { "TSPL", "ZPL", "DPL" };
+        private readonly ResourceManager resourceManager;
+
+        private void SwitchToEnglish()
+        {
+            // 切換到英文樣式
+            Resources.MergedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("/WpfApp1;component//language/en-us.xaml", UriKind.RelativeOrAbsolute) });
+        }
+        private void SwitchToChinese()
+        {
+            // 切換到英文樣式
+            Resources.MergedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("/WpfApp1;component//language/zh-cn.xaml", UriKind.RelativeOrAbsolute) });
+        }
         public MainWindow()
         {
             InitializeComponent();
-
+            
             /* 選項添加 */
             for (int i = 0; i < g_pstrDstDisk.Length; i++)
                 diskComboBox.Items.Add(g_pstrDstDisk[i]); // dpi選項添加
@@ -59,7 +74,8 @@ namespace WpfApp1
             }
             else
             {
-                labelSelectSrc.Content = "請選擇一個TTF檔案";
+                //labelSelectSrc.Content = "請選擇一個TTF檔案";
+                labelSelectSrc.Content = TryFindResource("msgSelectTTF") as string;
                 labelSelectSrc.Foreground = new SolidColorBrush(Colors.Red);
             }
         }
@@ -73,9 +89,9 @@ namespace WpfApp1
 
         private void exportFileButton_Click(object sender, RoutedEventArgs e)
         {
-            if (g_FilePath.Length == 0)
+            if (g_FilePath ==null || g_FilePath.Length == 0)
             {
-                labelStatus.Content = "來源檔案路徑必須選擇";
+                labelStatus.Content = TryFindResource("msgSelectDstPath") as string;
                 labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 return;
             }
@@ -95,20 +111,20 @@ namespace WpfApp1
                 }
                 else
                 {
-                    labelStatus.Content = "選擇的檔案並不存在";
+                    labelStatus.Content = TryFindResource("msgCantFindFile") as string;
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                     return;
                 }
 
                 if (diskComboBox.SelectedIndex == -1)
                 {
-                    labelStatus.Content = "指定槽不可為空";
+                    labelStatus.Content = TryFindResource("msgDiskIsNull") as string;
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                     return;
                 }
                 if (LangComboBox.SelectedIndex == -1)
                 {
-                    labelStatus.Content = "指定語言不可為空";
+                    labelStatus.Content = TryFindResource("msgPrinterLangaugeIsNull") as string;
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                     return;
                 }
@@ -153,7 +169,7 @@ namespace WpfApp1
                     else
                         return;
 
-                    stringLangHead = "\x2i" + stringD2Dst + "T" + wFileName.Text + "TTFont" + "\xD" + stringFileSize8B;
+                    stringLangHead = "\x2i" + stringD2Dst + "u" + wFileName.Text + "TTFont" + "\xD" + stringFileSize8B;
                 }
                 else
                 {
@@ -164,26 +180,40 @@ namespace WpfApp1
                 byteWrite = CommandDecode.Concat(byteGet).ToArray();
                 string target = dstPathText.Text + "\\" + wFileName.Text + ".prn";
                 File.WriteAllBytes(target, byteWrite);
-                labelStatus.Content = "檔案輸出完成";
+                labelStatus.Content = TryFindResource("msgExportComplete") as string;
                 labelStatus.Foreground = new SolidColorBrush(Colors.Green);
             }
             else
             {
                 if (g_FilePath.Length == 0)
                 {
-                    labelStatus.Content = "來源檔案路徑不得為空";
+                    labelStatus.Content = TryFindResource("msgSrcPathIsNull") as string;
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 }
                 else if (dstPathText.Text.Length == 0)
                 {
-                    labelStatus.Content = "指定輸出路徑不得為空";
+                    labelStatus.Content = TryFindResource("msgDstPathIsNull") as string;
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 }
                 else if (wFileName.Text.Length == 0)
                 {
-                    labelStatus.Content = "指定名稱不得為空";
+                    labelStatus.Content = TryFindResource("msgFontNameIsNull") as string;
                     labelStatus.Foreground = new SolidColorBrush(Colors.Red);
                 }
+            }
+        }
+        static bool bIsChinese = true;
+        private void btnSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            if (bIsChinese)
+            {
+                SwitchToEnglish();
+                bIsChinese = false;
+            }
+            else
+            {
+                SwitchToChinese();
+                bIsChinese = true;
             }
         }
     }
