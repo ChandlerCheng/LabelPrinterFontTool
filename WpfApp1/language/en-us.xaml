@@ -11,7 +11,7 @@
     <system:String x:Key="btnSelectExportTo">Select Dst</system:String>
     <system:String x:Key="btnSelectTTF">Select</system:String>
     <system:String x:Key="btnExport">Export</system:String>
-    <system:String x:Key="btnSwitchLanguage">Switch Chinese</system:String>
+    <system:String x:Key="btnSwitchLanguage">切換中文</system:String>
 
     <system:String x:Key="msgSelectTTF">Please select one TTF Font File.</system:String>
     <system:String x:Key="msgSelectDstPath">Destination file path must be selected.</system:String>

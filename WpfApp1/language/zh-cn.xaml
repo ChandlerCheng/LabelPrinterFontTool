@@ -11,7 +11,7 @@
     <system:String x:Key="btnSelectExportTo">輸出位置</system:String>
     <system:String x:Key="btnSelectTTF">選取</system:String>
     <system:String x:Key="btnExport">輸出</system:String>
-    <system:String x:Key="btnSwitchLanguage">切換英文</system:String>
+    <system:String x:Key="btnSwitchLanguage">Switch English</system:String>
 
 
     <system:String x:Key="msgSelectTTF">請選擇一個TTF檔案</system:String>

@@ -11,7 +11,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
             <StackPanel Orientation="Vertical">
                 <Label Content="{DynamicResource labelExportTo}"></Label>
-                <TextBox Name="dstPathText" Width="290"></TextBox>
+                <TextBox Name="dstPathText" Width="290">C:\Users\chand\OneDrive\桌面\LEID442_DPL西里爾字使用CP866</TextBox>
                 <Button Name="dstFileButton" Click="dstFileButton_Click" Content="{DynamicResource btnSelectExportTo}"/>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="{DynamicResource labelFileName}"></Label>

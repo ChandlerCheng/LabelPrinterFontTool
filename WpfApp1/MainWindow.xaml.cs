@@ -46,7 +46,7 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            
+            SwitchToEnglish();
             /* 選項添加 */
             for (int i = 0; i < g_pstrDstDisk.Length; i++)
                 diskComboBox.Items.Add(g_pstrDstDisk[i]); // dpi選項添加
